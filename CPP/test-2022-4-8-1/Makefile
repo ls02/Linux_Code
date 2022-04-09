@@ -1,7 +1,7 @@
 myproc:test.o
-	g++ -o $@ $^ -g
+	g++ -o $@ $^
 test.o:test.cc
-	g++ -c $<
+	g++ -c $< -g
 .PHONY:clear
 clear:
 	rm -rf *.o myproc
