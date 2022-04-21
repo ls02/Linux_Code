@@ -12,12 +12,23 @@ int main(void)
     int fd = open("bit.txt", O_CREAT | O_WRONLY, 0666);
     const char* str = "I like linux!\n";
     write(fd, str, strlen(str));
-
-    char temp[32] = { 0 }; 
-    read(fd, temp, strlen(str));
-    printf("%s\n", temp);
-    fflush(stdout);
     close(fd);
+
+    int fd1 = open("bit.txt", O_RDONLY);
+    char ch;
+
+    while (1)
+    {
+        size_t temp = read(fd1, &ch, 1);
+        if (temp <= 0)
+        {
+            break;
+        }
+
+        write(1, &ch, 1);
+        fflush(stdout);
+    }
+    close(fd1);
     
     return 0;
 }
