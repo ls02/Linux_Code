@@ -37,11 +37,12 @@ int main()
 
     while (1)
     {
-       ssize_t s = read(fd[0], buff, sizeof(buff)); 
+        buff[0] = 0;
+       ssize_t s = read(fd[0], buff, sizeof(buff) - 1); 
        if (s > 0)
        {
             buff[s] = 0;
-           printf("I an father# %s %d\n", buff, s);
+            printf("I an father# %s %d\n", buff, s);
        }
        else if (s == 0)
        {
