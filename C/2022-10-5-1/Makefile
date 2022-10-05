@@ -1,6 +1,5 @@
 test:test.c
-	gcc -o $@ $^ -lpthread
-
+	gcc -W -o $@ $^ -lpthread
 .PHONY:clean
 clean:
 	rm -rf test
