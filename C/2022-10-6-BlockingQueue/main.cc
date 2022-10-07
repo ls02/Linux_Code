@@ -25,7 +25,7 @@ void* Producter(void* arg)
         char op = arr[rand() % 4];
         Task t(x, y, op);
 
-        bq->Push(t); //生产数据
+        bq->Push(t); // 生产数据
         std::cout << "product task done" << std::endl;
     }
 }
