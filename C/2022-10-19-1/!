@@ -8,16 +8,16 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 
-#define DEFAULT 8083
+#define DEFAULT 8082
 
 class UdpServer{
     private:
         int _port;
         int _sockfd;
-//        std::string _ip;
+        std::string _ip;
 
     public:
-    UdpServer(int port = DEFAULT, int sockfd = -1): _port(port), _sockfd(sockfd) 
+    UdpServer(std::string ip, int port = DEFAULT, int sockfd = -1):_ip(ip), _port(port), _sockfd(sockfd) 
     {}
 
     bool InitUdpServer1()
@@ -36,8 +36,8 @@ class UdpServer{
         memset(&local, '\0', sizeof(local));
         local.sin_family = AF_INET;
         local.sin_port = htons(_port);
-        //local.sin_addr.s_addr = inet_addr(_ip.c_str());
-        local.sin_addr.s_addr = INADDR_ANY;
+        local.sin_addr.s_addr = inet_addr(_ip.c_str());
+
         
         if ((_sockfd, (struct socket*)&local, sizeof(local)) < 0) 
         {
@@ -67,11 +67,6 @@ class UdpServer{
                 int port = ntohs(peer.sin_port);
                 std::string ip = inet_ntoa(peer.sin_addr);
                 std::cout << ip << ":" << port << "# " << buffer << std::endl;
-
-                std::string echo_msg = "server get!";
-                echo_msg += buffer;
-
-                sendto(_sockfd, echo_msg.c_str(), echo_msg.size(), 0, );
             }
             else
             {

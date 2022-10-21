@@ -9,10 +9,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::string ip = "127.0.0.1";
     int port = atoi(argv[1]);
 
-    UdpServer* svr = new UdpServer(ip, port);
+    UdpServer* svr = new UdpServer(port);
     svr->InitUdpServer1();
 
     svr->Start();
