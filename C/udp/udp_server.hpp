@@ -39,7 +39,7 @@ class UdpServer{
         //local.sin_addr.s_addr = inet_addr(_ip.c_str());
         local.sin_addr.s_addr = INADDR_ANY;
         
-        if ((_sockfd, (struct socket*)&local, sizeof(local)) < 0) 
+        if (bind(_sockfd, (struct sockaddr*)&local, sizeof(local)) < 0) 
         {
             std::cerr << "bind error" << std::endl;
 
@@ -71,7 +71,7 @@ class UdpServer{
                 std::string echo_msg = "server get!";
                 echo_msg += buffer;
 
-                sendto(_sockfd, echo_msg.c_str(), echo_msg.size(), 0, );
+                sendto(_sockfd, echo_msg.c_str(), echo_msg.size(), 0, (struct sockaddr*)&peer, len);
             }
             else
             {
