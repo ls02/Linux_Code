@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 class UdpClient {
     private:
@@ -47,11 +48,22 @@ class UdpClient {
                 std::cout << "Please Enter# ";
                 std::cin >> msg;
                 sendto(_sockfd, msg.c_str(), msg.size(), 0, (struct sockaddr*)&peer, sizeof(peer));
+                char buffer[128];
+                struct sockaddr_in temp;
+                socklen_t len = sizeof(temp);
+                ssize_t size = recvfrom(_sockfd, buffer, sizeof(buffer) - 1, 0, (struct sockaddr*)& temp, &len);
+                if (size > 0)
+                {
+                    buffer[size] = 0;
+                    std::cout << buffer << std::endl;
+                }
             }
         }
 
         ~UdpClient()
         {
-
+            if (_sockfd >= 0) {
+                close(_sockfd);
+            }
         }
 };
