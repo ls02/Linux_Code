@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     int port = atoi(argv[1]);
 
     UdpServer* svr = new UdpServer(port);
-    svr->InitUdpServer1();
+    svr->InitUdpServer();
 
     svr->Start();
 

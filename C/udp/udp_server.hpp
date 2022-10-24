@@ -7,6 +7,9 @@
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
 
 #define DEFAULT 8083
 
@@ -20,7 +23,7 @@ class UdpServer{
     UdpServer(int port = DEFAULT, int sockfd = -1): _port(port), _sockfd(sockfd) 
     {}
 
-    bool InitUdpServer1()
+    bool InitUdpServer()
     {
         _sockfd = socket(AF_INET, SOCK_DGRAM, 0);
         if (_sockfd < 0)
@@ -68,8 +71,52 @@ class UdpServer{
                 std::string ip = inet_ntoa(peer.sin_addr);
                 std::cout << ip << ":" << port << "# " << buffer << std::endl;
 
-                std::string echo_msg = "server get!";
-                echo_msg += buffer;
+                std::string cmd = buffer;
+                std::string result;
+
+                if (cmd == "ls") 
+                {
+                    int pipes[2];
+                    pipe(pipes);
+                    printf("1");
+
+                    pid_t id = fork();
+                    if (id == 0) 
+                    {
+                        //child
+                        close(pipes[0]);
+                        dup2(pipes[1], 1);
+                        execl("/usr/bin/ls", "ls", "-a", "-l", "-i", nullptr);
+                        exit(1);
+                    }
+
+                    close(pipes[1]);
+                    char c;
+                    while (1)
+                    {
+                        if (read(pipes[0], &c, 1) > 0) 
+                        {
+                            result.push_back(c);
+                        }
+                        else 
+                        {
+                            break;
+                        }
+                    }
+
+                    wait(nullptr);
+                }
+
+                std::string echo_msg;
+                if (result.empty()) 
+                {
+                    echo_msg += buffer;
+                    echo_msg = "server get!->";
+                }
+                else 
+                {
+                    echo_msg = result; 
+                }
 
                 sendto(_sockfd, echo_msg.c_str(), echo_msg.size(), 0, (struct sockaddr*)&peer, len);
             }
@@ -81,6 +128,11 @@ class UdpServer{
     }
 
     ~UdpServer()
-    {}
+    {
+        if (_sockfd >= 0)
+        {
+            close(_sockfd);
+        }
+    }
 
 };
