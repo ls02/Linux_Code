@@ -16,7 +16,6 @@ int main(int argc, char* argv[])
     UdpClient* ucli = new UdpClient(ip, port);
 
     ucli->InitUdpClient();
-
     ucli->Start();
 
 
