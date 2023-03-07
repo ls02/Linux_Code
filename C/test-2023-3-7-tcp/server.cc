@@ -9,6 +9,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "Task.hpp"
+#include "ThreadPool.hpp"
 
 const uint16_t port = 8083;
 
@@ -142,7 +144,10 @@ int main(int argc, char* argv[])
         std::cout << "Get a new link -> : [" << cli_ip << " : " << cli_port << "]#" << new_sock << std::endl;
 
         //ServiceChild(new_sock);
-        ServiceThread(new_sock);
+        //ServiceThread(new_sock);
+        ns_task::Task t(new_sock);
+
+        ns_threadpool::ThreadPool<ns_task::Task>::GetInstance()->PushTask(t);
 
     }
 
