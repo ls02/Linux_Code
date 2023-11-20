@@ -6,5 +6,5 @@ set(list main.cc)
 
 add_executable(
   run
-  ${LIST}
+  ${list}
   )
