@@ -31,8 +31,17 @@ void DateAddDay() {
     std::cin >> day;
     d += day;
     std::cout << d << std::endl;
-    printf("相差: %ld 天 == %d 个星期 == %d个月%d天\n", day, day / 7, day / 30,
-           day % 30);
+    long long day_tmp = day;
+    long long year_tmp = day_tmp / 365;
+    day_tmp %= 365;
+
+    short month_tmp = day_tmp / 30;
+    day_tmp %= 30;
+    // printf("相差: %ld 天 == %d 个星期 == %d个月%d天 == %ld年%d个月%d天\n",
+    // day,
+    //        day / 7, day / 30, day % 30, year_tmp, month_tmp, day_tmp);
+
+    Date::Print(day);
 
   } while (flags);
 }
@@ -47,8 +56,17 @@ void DateSubDay() {
     std::cin >> day;
     d -= day;
     std::cout << d << std::endl;
-    printf("相差: %ld 天 == %d 个星期 == %d个月%d天\n", day, day / 7, day / 30,
-           day % 30);
+    long long day_tmp = day;
+    long long year_tmp = day_tmp / 365;
+    day_tmp %= 365;
+
+    short month_tmp = day_tmp / 30;
+    day_tmp %= 30;
+
+    // printf("相差: %ld 天 == %d 个星期 == %d个月%d天 == %ld年%d个月%d天\n",
+    // day,
+    //        day / 7, day / 30, day % 30, year_tmp, month_tmp, day_tmp);
+    Date::Print(day);
 
   } while (flags);
 }
@@ -65,9 +83,18 @@ void DateSubDate() {
     std::cin >> d2;
 
     long long day = d - d2;
+    long long day_tmp = day;
+    long long year_tmp = day_tmp / 365;
+    day_tmp %= 365;
 
-    printf("相差: %ld 天 == %d 个星期 == %d个月%d天\n", day, day / 7, day / 30,
-           day % 30);
+    short month_tmp = day_tmp / 30;
+    day_tmp %= 30;
+
+    // printf("相差: %ld 天 == %d 个星期 == %d个月%d天 == %ld年%d个月%d天\n",
+    // day,
+    //        day / 7, day / 30, day % 30, year_tmp, month_tmp, day_tmp);
+
+    Date::Print(day);
 
   } while (flags);
 }
