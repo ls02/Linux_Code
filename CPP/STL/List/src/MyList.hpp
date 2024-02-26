@@ -23,6 +23,8 @@ struct __list_iterator {
         return *this;
     }
 
+    Node *operator->() { return _node; }
+
     bool operator!=(const __list_iterator<T> &node) {
         return _node != node._node;
     }
@@ -47,13 +49,26 @@ class list {
     }
 
     void push_back(const T &val) {
+        /* Node *new_node = new Node(val); */
+        /* Node *tail = _head->_prev; */
+        /* new_node->_prev = tail; */
+        /* new_node->_next = _head; */
+        /* _head->_prev = new_node; */
+        /* tail->_next = new_node; */
+        /* _size++; */
+
+        insert(end(), val);
+    }
+
+    iterator insert(iterator pos, const T &val) {
         Node *new_node = new Node(val);
-        Node *tail = _head->_prev;
-        new_node->_prev = tail;
-        new_node->_next = _head;
-        _head->_prev = new_node;
-        tail->_next = new_node;
-        _size++;
+        Node *prev = pos->_prev;
+        pos->_prev = new_node;
+        prev->_next = new_node;
+        new_node->_prev = prev;
+        new_node->_next = pos._node;
+
+        return new_node;
     }
 
     iterator begin() { return iterator(_head->_next); }
