@@ -23,6 +23,11 @@ struct __list_iterator {
         return *this;
     }
 
+    __list_iterator<T> &operator--() {
+        _node = _node->_prev;
+        return *this;
+    }
+
     Node *operator->() { return _node; }
 
     bool operator!=(const __list_iterator<T> &node) {
@@ -67,9 +72,31 @@ class list {
         prev->_next = new_node;
         new_node->_prev = prev;
         new_node->_next = pos._node;
+        _size++;
 
         return new_node;
     }
+
+    iterator erase(iterator pos) {
+        // 这个检查的作用是防止他全删掉
+        if (pos._node == _head) {
+            return _head;
+        }
+
+        Node *prev = pos->_prev;
+        Node *next = pos->_next;
+        prev->_next = next;
+        next->_prev = prev;
+
+        delete pos._node;
+        _size--;
+
+        return next;
+    }
+
+    void pop_back() { erase(--end()); }
+
+    size_t size() const { return _size; }
 
     iterator begin() { return iterator(_head->_next); }
 
