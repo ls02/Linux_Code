@@ -12,29 +12,35 @@ struct list_node {
     T _val;
 };
 
-template <class T>
+template <class T, class Ref, class Ptr>
 struct __list_iterator {
+    typedef __list_iterator<T, Ref, Ptr> self;
     typedef list_node<T> Node;
 
     __list_iterator(Node *node) : _node(node) {}
 
-    __list_iterator<T> &operator++() {
+    self &operator++() {
         _node = _node->_next;
         return *this;
     }
 
-    __list_iterator<T> &operator--() {
+    self &operator--() {
         _node = _node->_prev;
         return *this;
     }
 
-    Node *operator->() { return _node; }
+    self operator--(int) {
+        self tmp = *this;
+        _node = _node->_prev;
 
-    bool operator!=(const __list_iterator<T> &node) {
-        return _node != node._node;
+        return tmp;
     }
+    /* Ptr operator->() { &(operator*()); } */
+    Ptr operator->() { &_node->_val; }
 
-    T &operator*() { return _node->_val; }
+    bool operator!=(const self &node) { return _node != node._node; }
+
+    Ref operator*() { return _node->_val; }
 
     Node *_node;
 };
@@ -44,7 +50,8 @@ class list {
     typedef list_node<T> Node;
 
    public:
-    typedef __list_iterator<T> iterator;
+    typedef __list_iterator<T, T &, T *> iterator;
+    typedef __list_iterator<const T, const T &, const T *> const_iterator;
 
     list(const T &val = T()) {
         _head = new Node(val);
@@ -67,11 +74,12 @@ class list {
 
     iterator insert(iterator pos, const T &val) {
         Node *new_node = new Node(val);
-        Node *prev = pos->_prev;
-        pos->_prev = new_node;
+        Node *cur = pos._node;
+        Node *prev = cur->_prev;
+        cur->_prev = new_node;
         prev->_next = new_node;
         new_node->_prev = prev;
-        new_node->_next = pos._node;
+        new_node->_next = cur;
         _size++;
 
         return new_node;
@@ -79,16 +87,17 @@ class list {
 
     iterator erase(iterator pos) {
         // 这个检查的作用是防止他全删掉
-        if (pos._node == _head) {
+        if (pos._node == end()) {
             return _head;
         }
 
-        Node *prev = pos->_prev;
-        Node *next = pos->_next;
+        Node *cur = pos._node;
+        Node *prev = cur->_prev;
+        Node *next = cur->_next;
         prev->_next = next;
         next->_prev = prev;
 
-        delete pos._node;
+        delete cur;
         _size--;
 
         return next;
@@ -99,8 +108,10 @@ class list {
     size_t size() const { return _size; }
 
     iterator begin() { return iterator(_head->_next); }
+    const_iterator begin() const { return const_iterator(_head->_next); }
 
     iterator end() { return iterator(_head); }
+    const_iterator end() const { return const_iterator(_head); }
 
    private:
     Node *_head;

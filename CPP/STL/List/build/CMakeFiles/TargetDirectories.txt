@@ -1,5 +1,0 @@
-/home/ls/Linux_Code/CPP/STL/List/build/CMakeFiles/edit_cache.dir
-/home/ls/Linux_Code/CPP/STL/List/build/CMakeFiles/rebuild_cache.dir
-/home/ls/Linux_Code/CPP/STL/List/build/bin/CMakeFiles/run_list.dir
-/home/ls/Linux_Code/CPP/STL/List/build/bin/CMakeFiles/edit_cache.dir
-/home/ls/Linux_Code/CPP/STL/List/build/bin/CMakeFiles/rebuild_cache.dir

@@ -38,6 +38,7 @@ void test2() {
     printf("size: %ld\n", l1.size());
 
     list<int>::iterator it = l1.begin();
+    printf("test: %x\n", it);
     while (it != l1.end()) {
         std::cout << *it << " ";
         ++it;
