@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ls/code/Linux_Code/CPP/practice/2024/build",
+  "command": "/usr/bin/clang++   -g -std=c++11 -g -O0 -o CMakeFiles/main.dir/main.cc.o -c /home/ls/code/Linux_Code/CPP/practice/2024/3-25-1/main.cc",
+  "file": "/home/ls/code/Linux_Code/CPP/practice/2024/3-25-1/main.cc"
+}
+]

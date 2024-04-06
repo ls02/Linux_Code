@@ -1,0 +1,16 @@
+// example_service.proto
+syntax = "proto3";
+
+package example;
+
+// 定义一个简单的服务
+service ExampleService {
+  // 一个简单的RPC方法
+  rpc Echo(EchoRequest) returns (EchoResponse);
+}
+
+// 请求消息
+message EchoRequest { string message = 1; }
+
+// 响应消息
+message EchoResponse { string response = 1; }
