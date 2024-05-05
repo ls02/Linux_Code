@@ -142,7 +142,7 @@ private:
     std::string path;
 };
 
-Log lg;
+extern Log lg;
 
 // int sum(int n, ...)
 // {

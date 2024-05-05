@@ -5,7 +5,7 @@ class NoCpy
 {
 public:
     // 构造禁用
-    NoCpy() = delete;
+    NoCpy() {}
 
     // 拷贝构造禁用
     NoCpy(const NoCpy &) = delete;

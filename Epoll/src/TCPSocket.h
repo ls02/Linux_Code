@@ -4,53 +4,27 @@
 #include <iostream>
 #include <cstring>
 #include "Socket.h"
-#include "Log.hpp"
+#include "nocopy.hpp"
 
-enum class TCPErr : int
+class TCPSocket : public Socket
 {
-    SOCKET_ERR = 2,
-    BIND_ERR,
-    LISTEN_ERR
-};
+    static constexpr int backlog_num = 5;
 
-class TCPServer : public Socket
-{
 public:
-    TCPServer()
+    TCPSocket() : Socket()
     {
     }
 
-    void Init()
-    {
-        // 创建套接字
-        if (CreateSocket(AF_INET, SOCK_STREAM, 0) < 0)
-        {
-            lg(Fatal, "Create Socket error, %s: %d", strerror(errno), errno);
-            exit(static_cast<int>(TCPErr::SOCKET_ERR));
-        }
+    // 创建套接字
+    bool CreateSocket();
 
-        // 监听套接字
-        if (ListenSocket() < 0)
-        {
-        }
+    // 监听套接字
+    bool ListenSocket(int backlog = backlog_num);
 
-        // 绑定套接字
-        if (BindSocket() < 0)
-        {
-        }
-    }
+    // 获取新链接
+    int Accept(std::string *client_ip, uint16_t *client_port);
 
-    int ListenSocket()
-    {
-        return listen(_sock_fd, )
-    }
-
-    int BindSocket()
-    {
-    }
-
-private:
-    int _listen_fd;
+    bool Connect(const std::string &ip, const uint16_t &port);
 };
 
 #endif

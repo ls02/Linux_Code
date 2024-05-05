@@ -5,6 +5,9 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <cstring>
+#include <arpa/inet.h>
+
+#include "Log.hpp"
 
 class Socket
 {
@@ -15,14 +18,18 @@ public:
         memset(&_addr, sizeof(_addr), 0);
     }
 
-    int CreateSocket(int domain, int type, int protocol);
+    virtual bool CreateSocket(int domain, int type, int protocol);
 
-    ~Socket()
+    virtual ~Socket()
     {
         CloseSocket();
     }
 
-    void CloseSocket();
+    bool Bind(uint16_t port);
+
+    virtual void CloseSocket();
+
+    int GetFd();
 
 protected:
     int _sock_fd;
